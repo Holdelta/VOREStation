@@ -204,12 +204,12 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 		directions = list(SOUTH)
 
 	var/sprites = list()
-	for (var/icon_state_name in icon_states(I))
+	for (var/icon_state_name in cached_icon_states(I))
 		for (var/direction in directions)
 			var/suffix = (directions.len > 1) ? "-[dir2text(direction)]" : ""
 			var/sprite_name = "[prefix][icon_state_name][suffix]"
 			var/icon/sprite = icon(I, icon_state=icon_state_name, dir=direction, frame=1, moving=FALSE)
-			if (!sprite || !length(icon_states(sprite)))  // that direction or state doesn't exist
+			if (!sprite || !length(cached_icon_states(sprite)))  // that direction or state doesn't exist
 				continue
 			sprites[sprite_name] = sprite
 	return sprites
@@ -334,3 +334,15 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 
 	send_asset_list(client, uncommon)
 	send_asset_list(client, common)
+
+
+// VOREStation Add Start - pipes iconsheet asset
+/datum/asset/iconsheet/pipes
+	name = "pipes"
+
+/datum/asset/iconsheet/pipes/register()
+	var/list/sprites = list()
+	for (var/each in list('icons/obj/pipe-item.dmi', 'icons/obj/pipes/disposal.dmi'))
+		sprites += build_sprite_list(each, global.alldirs)
+	..(sprites)
+// VOREStation Add End

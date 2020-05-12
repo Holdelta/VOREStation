@@ -151,6 +151,11 @@
 			if (prob(50) && !shielded)
 				Paralyse(10)
 
+	var/blastsoak = getsoak(null, "bomb")
+
+	b_loss = max(1, b_loss - blastsoak)
+	f_loss = max(1, f_loss - blastsoak)
+
 	var/update = 0
 
 	// focus most of the blast on one organ
@@ -1398,7 +1403,7 @@
 	set desc = "Pop a joint back into place. Extremely painful."
 	set src in view(1)
 
-	if(!isliving(usr) || !usr.canClick())
+	if(!isliving(usr) || !usr.checkClickCooldown())
 		return
 
 	usr.setClickCooldown(20)
@@ -1591,6 +1596,13 @@
 		else
 			layer = HIDING_LAYER
 
+/mob/living/carbon/human/examine_icon()
+	var/icon/I = get_cached_examine_icon(src)
+	if(!I)
+		I = getFlatIcon(src, defdir = SOUTH, no_anim = TRUE)
+		set_cached_examine_icon(src, I, 50 SECONDS)
+	return I
+
 /mob/living/carbon/human/proc/get_display_species()
 	//Shows species in tooltip
 	if(src.custom_species) //VOREStation Add
@@ -1639,3 +1651,32 @@
 
 	msg += get_display_species()
 	return msg
+
+/mob/living/carbon/human/pull_damage()
+	if(((health - halloss) <= config.health_threshold_softcrit))
+		for(var/name in organs_by_name)
+			var/obj/item/organ/external/e = organs_by_name[name]
+			if(!e)
+				continue
+			if((e.status & ORGAN_BROKEN && (!e.splinted || (e.splinted && e.splinted in e.contents && prob(30))) || e.status & ORGAN_BLEEDING) && (getBruteLoss() + getFireLoss() >= 100))
+				return 1
+	else
+		return ..()
+
+// Drag damage is handled in a parent
+/mob/living/carbon/human/dragged(var/mob/living/dragger, var/oldloc)
+	if(prob(getBruteLoss() * 200 / maxHealth))
+		var/bloodtrail = 1
+		if(species?.flags & NO_BLOOD)
+			bloodtrail = 0
+		else
+			var/blood_volume = round((vessel.get_reagent_amount("blood")/species.blood_volume)*100)
+			if(blood_volume < BLOOD_VOLUME_SURVIVE)
+				bloodtrail = 0	//Most of it's gone already, just leave it be
+			else
+				vessel.remove_reagent("blood", 1)
+		if(bloodtrail)
+			if(istype(loc, /turf/simulated))
+				var/turf/T = loc
+				T.add_blood(src)
+	. = ..()

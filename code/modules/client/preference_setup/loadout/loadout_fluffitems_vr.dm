@@ -89,6 +89,13 @@
 	ckeywhitelist = list("azurachitin")
 	character_name = list("Azura Chitin")
 
+/datum/gear/fluff/aurora
+	path = /obj/item/clothing/accessory/solgov/department/security/aurora
+	display_name = "Aurora's keepsake"
+	description = "An old solcom sec insignia given to Aurora"
+	ckeywhitelist = list("storesund97")
+	character_name = list("Aurora")
+
 //  B CKEYS
 /datum/gear/fluff/yuuko_kimono
 	path = /obj/item/clothing/under/fluff/sakura_hokkaido_kimono
@@ -140,27 +147,6 @@
 /datum/gear/fluff/tasald_box
 	path = /obj/item/weapon/storage/box/fluff/tasald
 	display_name = "Tasald's Box"
-	ckeywhitelist = list("bwoincognito")
-	character_name = list("Tasald Corlethian")
-
-/datum/gear/fluff/tasald_cartographer_jumpsuit
-	path = /obj/item/clothing/under/solgov/utility/sifguard/officer/exploration
-	display_name = "Tasald's Cartographer's uniform - jumpsuit"
-	slot = slot_w_uniform
-	ckeywhitelist = list("bwoincognito")
-	character_name = list("Tasald Corlethian")
-
-/datum/gear/fluff/tasald_cartographer_jacket
-	path = /obj/item/clothing/suit/storage/service/sifguard/command
-	display_name = "Tasald's Cartographer's uniform - jacket"
-	slot = slot_wear_suit
-	ckeywhitelist = list("bwoincognito")
-	character_name = list("Tasald Corlethian")
-
-/datum/gear/fluff/tasald_cartographer_beret
-	path = /obj/item/clothing/head/beret/sol/expedition/command
-	display_name = "Tasald's Cartographer's uniform - beret"
-	slot = slot_head
 	ckeywhitelist = list("bwoincognito")
 	character_name = list("Tasald Corlethian")
 
@@ -737,6 +723,13 @@
 	display_name = "Jamie's Unity Medal"
 	ckeywhitelist = list("phoenixgamma7")
 	character_name = list("Jamie Findlay")
+
+/datum/gear/fluff/scylla_shades
+	path = /obj/item/clothing/glasses/fluff/scylla
+	display_name = "Scylla's Shades"
+	description = "These cherry-red cat-eye shades give you an inclination to eat chalk."
+	ckeywhitelist = list("pimientopyro")
+	character_name = list("Scylla Casmus")
 
 //  Q CKEYS
 
